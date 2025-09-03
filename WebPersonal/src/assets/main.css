@@ -1,0 +1,98 @@
+/* ------------------------------
+   Paleta de colores principal
+--------------------------------*/
+:root {
+  /* Colores primarios */
+  --color-primary: #4F46E5;   /* Azul intenso */
+  --color-primary-light: #6366F1;
+  --color-primary-dark: #3730A3;
+
+  /* Colores secundarios */
+  --color-secondary: #F59E0B; /* Amarillo cálido */
+  --color-secondary-light: #FBBF24;
+  --color-secondary-dark: #B45309;
+
+  /* Colores de acento */
+  --color-accent: #10B981;    /* Verde */
+  --color-accent-light: #34D399;
+  --color-accent-dark: #047857;
+
+  /* Escala de grises */
+  --color-gray-100: #F9FAFB;
+  --color-gray-200: #F3F4F6;
+  --color-gray-300: #E5E7EB;
+  --color-gray-400: #D1D5DB;
+  --color-gray-500: #9CA3AF;
+  --color-gray-600: #6B7280;
+  --color-gray-700: #4B5563;
+  --color-gray-800: #374151;
+  --color-gray-900: #111827;
+
+  /* Estados */
+  --color-success: #16A34A;
+  --color-error: #DC2626;
+  --color-warning: #D97706;
+  --color-info: #2563EB;
+
+  /* Fondo y texto */
+  --color-bg: var(--color-gray-100);
+  --color-text: var(--color-gray-900);
+
+  /* Nuevas variables para sombras y efectos */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  
+  /* Variables para transiciones */
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  
+  /* Variables para bordes */
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 16px;
+}
+
+/* ------------------------------
+        Estilos globales
+--------------------------------*/
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.5;
+}
+
+/* Botones genéricos */
+.button {
+  padding: 0.8rem 1.5rem;
+  border-radius: var(--border-radius-md);
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all var(--transition-normal);
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button-primary {
+  background: var(--color-primary);
+  color: white;
+  box-shadow: var(--shadow-md);
+}
+
+.button-primary:hover {
+  background: var(--color-primary-dark);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-lg);
+}
+
+.button-primary:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}

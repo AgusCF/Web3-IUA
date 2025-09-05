@@ -5,20 +5,19 @@ import HelloWorld from './components/HelloWorld.vue'
 
 <template>
   <v-app>
+    <v-app-bar>
+      <v-container>
+        <v-row>
+          <v-col>
+            <v-btn variant="text" to="/">Inicio</v-btn>
+            <v-btn variant="text" to="/register">Registro</v-btn>
+            <v-btn variant="text" to="/about">Acerca de</v-btn>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-app-bar>
+
     <v-main>
-      <header>
-        <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-        <div class="wrapper">
-          <HelloWorld msg="You did it!" />
-
-          <nav>
-            <RouterLink to="/">Home</RouterLink>
-            <RouterLink to="/about">About</RouterLink>
-          </nav>
-        </div>
-      </header>
-
       <RouterView />
     </v-main>
   </v-app>

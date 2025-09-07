@@ -1,7 +1,7 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
-import Footer from './components/footer.vue'  // Añadir esta importación
+import Footer from './components/footer.vue'  // no me preguntes porque footer y no Footer
 </script>
 
 <template>
@@ -22,7 +22,7 @@ import Footer from './components/footer.vue'  // Añadir esta importación
       <RouterView />
     </v-main>
 
-    <Footer /> <!-- Añadir el componente Footer aquí -->
+    <Footer /> <!-- mi footer -->
   </v-app>
 </template>
 

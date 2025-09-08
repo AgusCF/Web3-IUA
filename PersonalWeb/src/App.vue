@@ -1,6 +1,5 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
 import Footer from './components/Footer.vue'
 </script>
 
@@ -10,9 +9,7 @@ import Footer from './components/Footer.vue'
       <v-container>
         <v-row>
           <v-col>
-            <v-btn variant="text" to="/">Inicio</v-btn>
-            <v-btn variant="text" to="/register">Registro</v-btn>
-            <v-btn variant="text" to="/about">Acerca de</v-btn>
+            <v-btn variant="text" to="/">Registro</v-btn>
             <v-btn variant="text" to="/products">Productos</v-btn>
           </v-col>
         </v-row>

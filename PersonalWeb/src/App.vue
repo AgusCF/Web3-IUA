@@ -1,7 +1,7 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
-import Footer from './components/Footer.vue'  // no me preguntes porque footer y no Footer
+import Footer from './components/Footer.vue'
 </script>
 
 <template>
@@ -13,6 +13,7 @@ import Footer from './components/Footer.vue'  // no me preguntes porque footer y
             <v-btn variant="text" to="/">Inicio</v-btn>
             <v-btn variant="text" to="/register">Registro</v-btn>
             <v-btn variant="text" to="/about">Acerca de</v-btn>
+            <v-btn variant="text" to="/products">Productos</v-btn>
           </v-col>
         </v-row>
       </v-container>

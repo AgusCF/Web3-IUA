@@ -1,69 +1,106 @@
-<script setup>
-import { ref } from 'vue'
-
-const clientName = ref('')
-const showMessage = ref(false)
-const welcomeMessage = ref('')
-
-const registerClient = () => {
-  if (!clientName.value.trim()) {
-    return
-  }
-  
-  // Simular guardado en base de datos
-  console.log('Cliente registrado:', clientName.value)
-  
-  welcomeMessage.value = `¡Bienvenido/a ${clientName.value}!`
-  showMessage.value = true
-  
-  // Limpiar el campo después de 3 segundos
-  setTimeout(() => {
-    clientName.value = ''
-    showMessage.value = false
-  }, 3000)
-}
-</script>
-
+<!-- filepath: src/components/QuickRegister.vue -->
 <template>
-  <v-container>
-    <v-card class="mx-auto pa-4" max-width="500">
-      <v-card-title class="text-h5 mb-4">
-        Registro Rápido de Cliente
-      </v-card-title>
-      
-      <v-form @submit.prevent="registerClient">
+  <v-card class="mx-auto my-4 pa-4" max-width="500">
+    <v-card-title class="text-h5">
+      Registro Rápido de Clientes
+    </v-card-title>
+    
+    <v-card-text>
+      <v-form @submit.prevent="registerNewCustomer">
         <v-text-field
-          v-model="clientName"
+          v-model="customerName"
           label="Nombre del cliente"
-          :rules="[v => !!v || 'El nombre es requerido']"
-          required
-          clearable
+          :error-messages="nameError"
+          :class="{ 'border-error': nameError }"
+          @input="clearSuccess"
           variant="outlined"
-          prepend-icon="mdi-account"
+          autofocus
         ></v-text-field>
-
+        
+        <v-alert
+          v-if="successMessage"
+          type="success"
+          variant="tonal"
+          class="mb-4"
+        >
+          {{ successMessage }}
+        </v-alert>
+        
+        <v-alert
+          v-if="customerStore.error"
+          type="error"
+          variant="tonal"
+          class="mb-4"
+        >
+          {{ customerStore.error }}
+        </v-alert>
+        
         <v-btn
+          type="submit"
           color="primary"
           block
-          type="submit"
-          :disabled="!clientName"
-          class="mt-4"
+          :loading="customerStore.isLoading"
+          :disabled="!isValid"
         >
           Registrar Cliente
         </v-btn>
       </v-form>
-
-      <v-fade-transition>
-        <v-alert
-          v-if="showMessage"
-          color="success"
-          class="mt-4"
-          variant="tonal"
-          border="start"
-        >
-          {{ welcomeMessage }}
-        </v-alert>
-      </v-fade-transition>
-    </v-card>
-  </v-container>
+    </v-card-text>
+  </v-card>
 </template>
+
+<script setup>
+import { ref, computed } from 'vue'
+import { useCustomerStore } from '@/stores/customer'
+
+// Initialize customer store
+const customerStore = useCustomerStore()
+
+// Form state
+const customerName = ref('')
+const successMessage = ref('')
+
+// Computed properties
+const nameError = computed(() => {
+  if (customerName.value && customerName.value.trim().length < 3) {
+    return 'El nombre debe tener al menos 3 caracteres'
+  }
+  return ''
+})
+
+const isValid = computed(() => {
+  return customerName.value && customerName.value.trim().length >= 3
+})
+
+// Methods
+/**
+ * Register a new customer when form is submitted
+ */
+async function registerNewCustomer() {
+  if (!isValid.value) return
+  
+  const result = await customerStore.registerCustomer({ 
+    name: customerName.value 
+  })
+  
+  if (result) {
+    successMessage.value = `¡Bienvenido, ${result.name}!`
+    customerName.value = '' // Clear input after successful registration
+  }
+}
+
+/**
+ * Clear success message when user starts typing again
+ */
+function clearSuccess() {
+  if (successMessage.value) {
+    successMessage.value = ''
+  }
+}
+</script>
+
+<style scoped>
+.border-error {
+  border-color: var(--v-error-base);
+}
+</style>

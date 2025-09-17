@@ -1,8 +1,6 @@
 <template>
   <v-container>
-    <h2 class="text-h4 mb-4">Catálogo de Productos</h2>
-
-    <!-- Búsqueda de productos -->
+    <h2 class="text-h4 font-weight-bold mb-4">Catálogo de Productos</h2>
     <v-text-field
       v-model="searchQuery"
       label="Buscar productos"
@@ -11,8 +9,6 @@
       clearable
       class="mb-4"
     ></v-text-field>
-
-    <!-- Mensaje de estado vacío -->
     <v-alert
       v-if="filteredProducts.length === 0"
       type="info"
@@ -22,8 +18,6 @@
     >
       No se encontraron productos que coincidan con tu búsqueda.
     </v-alert>
-
-    <!-- Listado de productos -->
     <v-row>
       <v-col
         v-for="product in filteredProducts"
@@ -36,22 +30,34 @@
         <v-card
           :class="{ 'out-of-stock': product.stock === 0 }"
           height="100%"
-          class="d-flex flex-column"
+          class="d-flex flex-column product-card"
+          elevation="4"
         >
-          <v-card-title>{{ product.name }}</v-card-title>
-          
+          <v-img
+            :src="product.image || 'https://via.placeholder.com/300x200?text=Producto'"
+            height="160"
+            cover
+            class="mb-2"
+          />
+          <v-card-title>
+            <v-tooltip bottom>
+              <template #activator="{ props }">
+                <span v-bind="props" class="truncate">{{ product.name }}</span>
+              </template>
+              {{ product.name }}
+            </v-tooltip>
+          </v-card-title>
           <v-card-text class="flex-grow-1">
-            <div class="text-h5 mb-2">${{ product.price.toFixed(2) }}</div>
-            
+            <div class="text-h5 font-weight-bold mb-2">${{ product.price.toFixed(2) }}</div>
             <v-chip
               :color="product.stock > 0 ? 'success' : 'error'"
               size="small"
               class="mb-2"
+              label
             >
               {{ product.stock > 0 ? `Stock: ${product.stock}` : 'Sin stock' }}
             </v-chip>
           </v-card-text>
-          
           <v-card-actions>
             <v-btn
               color="primary"
@@ -116,6 +122,18 @@ function getCartQuantity(productId) {
 </script>
 
 <style scoped>
+.product-card {
+  transition: box-shadow 0.2s;
+}
+.product-card:hover {
+  box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+}
+.truncate {
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .out-of-stock {
   opacity: 0.7;
 }

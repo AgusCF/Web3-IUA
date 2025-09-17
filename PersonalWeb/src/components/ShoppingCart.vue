@@ -1,94 +1,80 @@
 <template>
   <v-container>
-    <h2 class="text-h4 mb-4">Carrito de Compras</h2>
-    
-    <!-- Mensaje de carrito vacío -->
-    <v-alert
-      v-if="cartStore.items.length === 0"
-      type="info"
-      variant="tonal"
-      border="start"
-      class="mb-4"
-    >
-      Tu carrito está vacío. Agrega algunos productos desde el catálogo.
-    </v-alert>
-    
-    <!-- Listado de items del carrito -->
-    <v-list v-else>
-      <v-list-item
-        v-for="item in cartStore.items"
-        :key="item.id"
-        :title="item.name"
-        :subtitle="`$${item.price.toFixed(2)} c/u`"
-      >
-        <template v-slot:prepend>
-          <v-avatar color="primary" size="36">
-            <v-icon>mdi-package-variant-closed</v-icon>
-          </v-avatar>
-        </template>
-        
-        <template v-slot:append>
-          <div class="d-flex align-center">
-            <div class="text-right mr-4">
-              <div class="text-body-1">${{ (item.price * item.quantity).toFixed(2) }}</div>
-              <div class="text-caption">Subtotal</div>
-            </div>
-            
-            <v-btn-group>
+    <h2 class="text-h4 font-weight-bold mb-4">Carrito de Compras</h2>
+    <v-slide-y-transition>
+      <template v-if="cartStore.items.length === 0">
+        <v-alert
+          type="info"
+          variant="tonal"
+          border="start"
+          class="mb-4"
+        >
+          Tu carrito está vacío. Agrega algunos productos desde el catálogo.
+        </v-alert>
+      </template>
+      <template v-else>
+        <v-list>
+          <v-list-item
+            v-for="item in cartStore.items"
+            :key="item.id"
+            class="mb-2"
+          >
+            <v-card elevation="2" class="d-flex align-center pa-2">
+              <v-img
+                :src="item.image || 'https://via.placeholder.com/60x60?text=+'"
+                width="60"
+                height="60"
+                class="mr-3"
+                cover
+              />
+              <div class="flex-grow-1">
+                <div class="text-body-1 font-weight-bold">{{ item.name }}</div>
+                <div class="text-caption">Precio: ${{ item.price.toFixed(2) }} c/u</div>
+                <div class="text-caption">Subtotal: ${{ (item.price * item.quantity).toFixed(2) }}</div>
+              </div>
+              <v-btn-group>
+                <v-btn
+                  icon="mdi-minus"
+                  density="comfortable"
+                  @click="cartStore.decreaseQuantity(item.id)"
+                  size="small"
+                ></v-btn>
+                <v-badge :content="item.quantity" color="primary" class="mx-2" />
+                <v-btn
+                  icon="mdi-plus"
+                  density="comfortable"
+                  @click="cartStore.increaseQuantity(item.id)"
+                  size="small"
+                ></v-btn>
+              </v-btn-group>
               <v-btn
-                icon="mdi-minus"
-                density="comfortable"
-                @click="cartStore.decreaseQuantity(item.id)"
-                size="small"
-              ></v-btn>
-              
-              <v-btn
+                icon="mdi-delete"
+                color="error"
                 variant="text"
-                disabled
-                min-width="40"
-                size="small"
-              >
-                {{ item.quantity }}
-              </v-btn>
-              
-              <v-btn
-                icon="mdi-plus"
                 density="comfortable"
-                @click="cartStore.increaseQuantity(item.id)"
-                size="small"
+                class="ml-2"
+                @click="cartStore.removeFromCart(item.id)"
               ></v-btn>
-            </v-btn-group>
-            
-            <v-btn
-              icon="mdi-delete"
-              color="error"
-              variant="text"
-              density="comfortable"
-              class="ml-2"
-              @click="cartStore.removeFromCart(item.id)"
-            ></v-btn>
-          </div>
-        </template>
-      </v-list-item>
-    </v-list>
-    
-    <!-- Totales y acciones -->
+            </v-card>
+          </v-list-item>
+        </v-list>
+      </template>
+    </v-slide-y-transition>
     <v-card
       v-if="cartStore.items.length > 0"
       variant="outlined"
       class="mt-4"
+      elevation="4"
     >
       <v-card-text>
         <div class="d-flex justify-space-between align-center">
-          <div class="text-h5">Total:</div>
-          <div class="text-h4">${{ cartStore.total }}</div>
+          <div class="text-h5 font-weight-bold">Total:</div>
+          <div class="text-h4 text-primary">${{ cartStore.total }}</div>
         </div>
-        
         <div class="text-body-2 text-right">
           {{ cartStore.itemCount }} items en tu carrito
         </div>
       </v-card-text>
-      
       <v-card-actions>
         <v-btn
           color="error"
@@ -98,9 +84,7 @@
         >
           Vaciar carrito
         </v-btn>
-        
         <v-spacer></v-spacer>
-        
         <v-btn
           color="primary"
           prepend-icon="mdi-cart-check"

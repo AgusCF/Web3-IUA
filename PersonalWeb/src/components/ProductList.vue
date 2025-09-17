@@ -58,7 +58,7 @@
               variant="elevated"
               block
               @click="addToCart(product.id)"
-              :disabled="product.stock === 0"
+              :disabled="product.stock === 0 || getCartQuantity(product.id) >= product.stock"
             >
               <v-icon left>mdi-cart-plus</v-icon>
               Agregar al carrito
@@ -75,33 +75,43 @@ import { ref, computed } from 'vue'
 import { products } from '@/data/products.js'
 import { useCartStore } from '@/stores/cart'
 
-// Inicializar store del carrito
+// Store del carrito
 const cartStore = useCartStore()
 
 // Estado local para la búsqueda
 const searchQuery = ref('')
 
 /**
- * Filtra productos basado en la búsqueda
- * Realiza búsqueda case-insensitive en el nombre del producto
+ * Filtra productos basado en la búsqueda.
+ * Solo muestra productos cuyo nombre empieza por la consulta o contiene la palabra completa.
  */
 const filteredProducts = computed(() => {
   if (!searchQuery.value) {
     return products
   }
-  
-  const query = searchQuery.value.toLowerCase()
-  return products.filter(product => 
-    product.name.toLowerCase().includes(query)
+  const query = searchQuery.value.trim().toLowerCase()
+  // Expresión regular: inicio de palabra (\b) seguido de la consulta
+  const regex = new RegExp(`\\b${query}`, 'i')
+  return products.filter(product =>
+    regex.test(product.name.toLowerCase())
   )
 })
 
 /**
  * Agrega un producto al carrito
- * @param {Number} productId - ID del producto a agregar
  */
 function addToCart(productId) {
   cartStore.addToCart(productId)
+}
+
+/**
+ * Devuelve la cantidad de un producto en el carrito
+ * @param {Number} productId
+ * @returns {Number}
+ */
+function getCartQuantity(productId) {
+  const item = cartStore.items.find(i => i.id === productId)
+  return item ? item.quantity : 0
 }
 </script>
 

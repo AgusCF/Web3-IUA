@@ -52,4 +52,4 @@ describe('ShoppingCart.vue', () => {
     expect(screen.getByText(/carrito está vacío/i)).toBeTruthy()
   })
 })
-//npm run test o npx vitest
+//npm run test:unit

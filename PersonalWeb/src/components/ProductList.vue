@@ -33,6 +33,7 @@
           class="d-flex flex-column product-card"
           elevation="4"
         >
+          <!--Las imagenes no estan implementadas-->
           <v-img
             :src="product.image || 'https://via.placeholder.com/300x200?text=Producto'"
             height="160"
@@ -58,6 +59,15 @@
               {{ product.stock > 0 ? `Stock: ${product.stock}` : 'Sin stock' }}
             </v-chip>
           </v-card-text>
+
+          <v-btn
+            variant="text"
+            color="secondary"
+            @click="goToDetail(product.id)"
+          >
+            Ver detalle
+          </v-btn>
+
           <v-card-actions>
             <v-btn
               color="primary"
@@ -118,6 +128,12 @@ function addToCart(productId) {
 function getCartQuantity(productId) {
   const item = cartStore.items.find(i => i.id === productId)
   return item ? item.quantity : 0
+}
+import { useRouter } from 'vue-router'
+const router = useRouter()
+
+function goToDetail(id) {
+  router.push({ name: 'producto-detalle', params: { id } })
 }
 </script>
 

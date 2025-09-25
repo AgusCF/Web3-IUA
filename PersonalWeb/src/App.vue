@@ -14,6 +14,7 @@ const auth = useAuthStore()
           <v-col>
             <v-btn variant="text" to="/">Registro</v-btn>
             <v-btn variant="text" to="/products">Productos</v-btn>
+            <v-btn variant="text" to="/clientes">Clientes</v-btn>
           </v-col>
           <v-col class="d-flex justify-end align-center" v-if="auth.user">
             <span class="mr-4">{{ auth.user.email }}</span>

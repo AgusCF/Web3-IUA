@@ -26,6 +26,12 @@ const routes = [
     component: () => import('@/views/ProductDetailView.vue'),
     meta: { requiresAuth: true }
   },
+  {
+    path: '/clientes',
+    name: 'clientes',
+    component: () => import('@/views/ClientesView.vue'),
+    meta: { requiresAuth: true }
+  },
   // Agrega aquí otras rutas protegidas...
 ]
 
